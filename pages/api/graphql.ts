@@ -37,6 +37,7 @@ export const config =   {
 // start the server
 const startServer = server.start()
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async function (req, res) {
     // start the server
     await startServer;
