@@ -2,22 +2,10 @@ import { ApolloServer } from "apollo-server-micro";
 import "reflect-metadata"
 import { buildSchema, Resolver, Query, Arg, ObjectType, Field, ID } from "type-graphql";
 
-@ObjectType()
-export class Dog {
-  @Field(type => ID)
-  name: string;
-}
-  
-@Resolver(Dog)
-export class DogResolver {
-    @Query(() => [Dog])
-    dogs() : Dog[] {
-        return [{name: "Rufus"}, {name: "Spot"}];
-    }
-}
+import { DogsResolver } from "../../src/schema/dogs.resolver";
 
 const schema = await buildSchema({
-    resolvers: [DogResolver],
+    resolvers: [DogsResolver],
 });
 
 // initialize apollo server
@@ -38,7 +26,7 @@ export const config =   {
 const startServer = server.start()
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function (req, res) {
+export default async function handler(req, res) {
     // start the server
     await startServer;
     await server.createHandler({ path: "/api/graphql" })(req, res); 
